@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<div class="container">
+    <div class="row">
+        {% for e,invests in Data %}
+        <div class="col-md-4 p-3 cards">
+            <div class="border rounded-3 p-4 rounded-3 shadow shadow-5 h-100 bg-white">
+                {% if e.logo %}
+                <img src="{{ e.logo.url }} " class="d-block mx-lg-auto img-fluid cards_photo"
+                     loading="lazy">
+                {% else %}
+                <img src="{% static 'img/logo_quetsya.jpg' %} " class="d-block mx-lg-auto img-fluid cards_photo"
+                      loading="lazy">
+                {% endif %}
+                <p class="name_startups"><b>Название:</b> {{ e.name }}</p>
+                <p class="osn_idea"><b>Основная идея:</b> {{ e.idea|truncatewords:12 }}</p>
+                
+                {% if invests%}
+
+                <p><b>Инвестиции: </b>{{invests}}р</p>
+                {%else%}
+                <p><b>Инвестиции:  </b>0р</p>
+                {%endif%}
+                
+                <a href="{{ e.get_absolute_url }}" class="w-100 py-2 btn btn-warning btn-lg btn_cards" >Посмотреть</a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<div class="container col-xxl-8 px-4 py-5">
+  <div class="row flex-lg-row-reverse align-items-center g-5 py-5">
+    <div class="col-10 col-sm-8 col-lg-6">
+      {% if logo %}
+      <img src="{{ logo.url }} " class="d-block mx-lg-auto img-fluid" width="700" height="500" loading="lazy">
+      {% else %}
+      <img src="{% static 'img/logo_quetsya.jpg' %} " class="d-block mx-lg-auto img-fluid" width="500" height="300"
+        loading="lazy">
+      {% endif %}
+    </div>
+
+    <div class="col-lg-6 description_cards">
+      <h1 class="display-5 fw-bold lh-1 mb-3">{{ name }}</h1>
+      <p class="lead "><strong>Автор:</strong> {{ ceo_name }}</p>
+      <p class="lead"><strong>Идея:</strong> {{ idea }}</p>
+      <p class="lead"><strong>Что необходимо:</strong> {{ needed_to }}</p>
+      <p class="lead"><strong>Дата публикации:</strong> {{ create|date:"d M Y" }}</p>
+
+
+      <div class="d-grid gap-2 d-md-flex justify-content-md-start">
+        {% if presentation %}
+        <a href="{{ presentation.url }}" target="_blank" type="button"
+          class="btn btn-warning ps-4 pe-4 ">Скачать</a>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+  <div class="col-12 description_cards">
+    <h1>Полное описание</h1>
+  </div>
+  <div class="col-12 description_cards" style="font-size: 120%;">
+    <p>{{ description }}</p>
+  </div>
+  {% if isCreater %}
+  <div class="d-grid gap-2 d-md-flex justify-content-md-start">
+  <a href=""  type="button" class="btn btn-warning">Редактировать</a>
+  </div>
+  {% endif %}
+</div>
+{% endblock %}
