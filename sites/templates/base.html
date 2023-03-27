@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Martian+Mono:wght@700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Martian+Mono:wght@700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
+        crossorigin="anonymous"></script>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <title>{% block title %}BizDate{% endblock %}</title>
+    {% block script %}
+    {% endblock %}
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Martian+Mono:wght@700&display=swap');
+
+        .main {
+            background: rgb(2, 0, 36);
+            background: linear-gradient(180deg, rgba(2, 0, 36, 1) 0%, rgba(255, 193, 7, 1) 0%, rgb(255, 255, 255) 10%);
+        }
+        .text_header {
+            /* background: rgb(2,0,36); 
+        background: linear-gradient(180deg, rgba(2,0,36,1) 0%, rgba(255,193,7,1) 0%, rgb(255, 255, 255) 10%);  */
+            font-size: 22px;
+            font-family: 'Martian Mono', sans-serif;
+        }
+        .container{
+            font-family: 'Montserrat', 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+
+        }
+        .cards_photo {
+            display: inline-block;
+            width: 200px;
+            margin: 0 auto;
+        }
+
+        .osn_idea {
+            height: 100px;
+        }
+
+        .header {
+            border-radius: 10px;
+            padding-top: 20px;
+            padding-bottom: 20px;
+        }
+
+        .btn_cards {
+            margin-top: 2%;
+            justify-content: space-between;
+        }
+
+        .header_logo {
+            font-size: 24px;
+            font-family: 'Martian Mono', sans-serif;
+        }
+
+        .btn-circle {
+            width: 38px;
+            height: 38px;
+            border-radius: 19px;
+            text-align: center;
+            padding-left: 0;
+            padding-right: 0;
+            font-size: 16px;
+            background-color: rgb(255, 193, 7, 1);
+        }
+
+        /* .menu_logo{
+            font-family: 'Martian Mono', sans-serif;
+            font-size: 22px;
+        } */
+        .desc_cards {
+            font-family: 'Montserrat', sans-serif;
+            color: black;
+            font-size: 16px;
+        }
+        .name_startups{
+            padding-top: 10px;
+        }
+    </style>
+
+</head>
+
+<body>
+    <div class="main">
+        {% block header %}
+        <nav class="navbar navbar-expand-sm" aria-label="Third navbar example">
+            <div class="container header text_header">
+                <a class="navbar-brand header_logo" href="{% url 'base_template' %}">BizDate</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarsExample03" aria-controls="navbarsExample03" aria-expanded="true"
+                    aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="navbar-collapse collapse nav text-end menu_logo" id="navbarsExample03">
+                    <ul class="navbar-nav me-auto mb-2 mb-sm-0 ">
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="{% url 'base_template' %}">Главная</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'startups_template' %}">Стартапы</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'about_template' %}">О нас</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        {% endblock %}
+
+        {% block content %}
+
+        <div class="container">
+            <div class="row">
+                {% for e,invests in Data %}
+                <div class="col-md-4 .col-lg-12 p-3 cards">
+                    <div class="border rounded-3 p-3 rounded-3 shadow shadow-5 h-100 bg-white">
+                        {% if e.logo %}
+                        <img src="{{ e.logo.url }} " class="d-block mx-lg-auto img-fluid cards_photo" loading="lazy">
+                        {% else %}
+                        <img src="{% static 'img/logo_quetsya.jpg' %} " class="d-block mx-lg-auto img-fluid cards_photo"
+                            loading="lazy">
+                        {% endif %}
+                        <p><b>Название:</b> {{ e.name }}</p>
+                        <p class="osn_idea"><b>Основная идея:</b> {{ e.idea|truncatewords:12 }}</p>
+                        {% if invests%}
+
+                        <p><b>Инвестиции: </b>{{invests}}р</p>
+                        {%else%}
+                        <p><b>Инвестиции:  </b>0р</p>
+                        {%endif%}
+                        <a href="{{ e.get_absolute_url }}"
+                            class="w-100 py-2 btn btn-warning btn-lg btn_cards">Посмотреть</a>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        {% endblock %}
+
+    {% block footer %}
+    <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
+        <p class="col-md-4 col-12 text-center mb-0 text-muted"><a href="#" class="nav-link px-2 text-muted">Обратная
+                связь</a></p>
+
+        <a href="/"
+            class="col-md-4 col-12 text-center d-flex align-items-center justify-content-center mb-3 mb-md-0 me-md-auto link-dark text-decoration-none">
+            <img src="{% static 'img/logo.png' %}" width="100" alt="">
+        </a>
+
+        <p class="nav col-md-4 col-12 justify-content-center text-center">© 2022 КуйКод TM</p>
+    </footer>
+    {% endblock %}
+</body>
+
+</html>

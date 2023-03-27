@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+
+{% block content %}
+<div class="container ">
+    <main>
+      <div class="py-5 text-center">
+        {% if not condition %}
+        <h2>Карточка Профиля</h2>
+        <p class="lead">В данной форме вы можете выбрать себе роль в сегменте.</p>
+      </div>
+      <div class="row g-5">
+        <div class="col-md-12">
+          <h4 class="mb-3">Карта профиля</h4>
+          <form class="needs-validation"  method="POST">
+            {% csrf_token %}  
+            <div class="col-12">
+                <label for="state" class="form-label">Cегмент</label>
+                <select name="segment" class="form-select" id="segment" required="">
+                  <option value="">Выберите сегмент</option>
+                  {% for item in spec %}
+                  <option>{{ item }}</option>
+                  {% endfor %}
+                </select>
+              </div>   
+              <div class="col-12">
+                <label for="rols" class="form-label">Роль</label>
+                <select name="role" class="form-select" id="state" required="">
+                  <option value="">Выберите...</option>
+                  {% for item in rols %}
+                  <option>{{ item }}</option>
+                  {% endfor %}
+                </select>
+              </div>
+              <div class="col-12">
+                <label for="desc" class="form-label">Описание</label>
+                <input name="description_startup" type="text" class="form-control" id="need_startup" placeholder="Был опыт во многих IT проектах" required="">
+              </div>
+              <div class="col-12 pt-3">
+                <label class="custom-file-label" for="customFile">Добавить резюме</label>
+                <input name="cv" type="file" class="form-control input-group-addon-bg" id="customFile">
+              </div>
+              <div class="col-12 pt-3">
+                  <button class="w-100 btn btn-warning btn-lg" type="submit" onclick="sendForms()">Создать карточку</button>
+              </div>
+          </form>
+          {% else %}
+          <img class="d-block mx-auto mb-4" src="{% static 'img/galka.png' %}" alt="" width="10%">
+          {% endif%}
+          
+        </div>
+
+          
+      </div>
+    </main>
+    
+{% endblock %}
+
+{% block script %}
+<script>
+  let tg = window.Telegram.WebApp;
+  tg.expand();  
+  function sendForms() {
+    tg.sendData("cardProfile_create");
+    tg.close();
+  }
+</script>
+{% endblock %}
